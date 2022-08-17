@@ -9,7 +9,7 @@ export default class Assessment implements Seeder {
       .insert()
       .into(AssessmentEntity)
       .values([
-        { title: 'Avaliação de Estrutura de Dados', finishedAt: '2020-01-01', questions: [''] },
+        { title: 'Avaliação de Estrutura de Dados', finishedAt: '2020-01-01', questions: [] },
       ])
       .execute();
   }
