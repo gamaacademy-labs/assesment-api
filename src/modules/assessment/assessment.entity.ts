@@ -1,6 +1,6 @@
 import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
 
-@Entity()
+@Entity('assessment')
 export class AssessmentEntity {
     @PrimaryGeneratedColumn('uuid')
     public id: string;
@@ -17,11 +17,11 @@ export class AssessmentEntity {
     @Column({ name: 'title', type: 'varchar', length: '100', unique: false, nullable: false })
     public title: string;
 
-    @Column({ name: 'finished_at', type: 'timestamptz', nullable: true })
+    @Column({ name: 'finished_at', type: 'timestamptz', nullable: false })
     public finishedAt: Date;
     
-    @Column({ name: 'questions', type: 'jsonb', nullable: true, default: '[]'})
-    public questions: any[];
+    @Column({ name: 'questions', type: 'jsonb', nullable: true, default: [], array: true })
+    public questions: string[];
 
 
     
