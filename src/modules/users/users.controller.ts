@@ -1,6 +1,6 @@
 import { Controller, Get, Param, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiParam, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../auth/strategy/jwt-auth.guard";
 import { UsersEntity } from "./users.entity";
 import { UsersService } from "./users.service";
@@ -14,6 +14,7 @@ export class UsersController {
     ){}
 
     @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
     @Get('/:username')
     @ApiParam({ name: 'username' })
     public async findUserByUsername(
