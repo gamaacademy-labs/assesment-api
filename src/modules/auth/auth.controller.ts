@@ -12,7 +12,9 @@ export class AuthController {
 
     @Post('/login')
     @ApiBody({type: AuthDto})
-    public async login(@Body() payload: AuthDto): Promise<string> {
+    public async login(
+        @Body() payload: AuthDto
+    ): Promise<string> {
     const auth = await this.authService.login(payload)
     return auth
     }

@@ -20,17 +20,19 @@ export class AuthService {
         return null;
     }
 
-    async loginWithCredentials(user: any) {
-        const payload = { username: user.username, sub: user.id };
-
-        return {
-            access_token: this.jwtTokenService.sign(payload),
+    async loginWithCredentials(user: any): Promise<string> {
+        const payload = {
+            username: user.username, 
+            sub: user.id
         };
+
+        return this.jwtTokenService.sign(payload)
     }
 
     public async login(payload: AuthDto): Promise<string> {
-        const auth = await this.usersService.findUserByUsername(payload.username)
-        return JSON.stringify(auth)
+        const user = await this.usersService.findUserByUsername(payload.username)
+        const token = this.loginWithCredentials(user.username)
+        return token
     }
 }
 
