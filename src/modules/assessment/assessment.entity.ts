@@ -20,7 +20,7 @@ export class AssessmentEntity {
     @Column({ name: 'finished_at', type: 'timestamptz', nullable: false })
     public finishedAt: Date;
     
-    @Column({ name: 'questions', type: 'jsonb', nullable: true, default: [], array: true })
+    @Column({ name: 'questions', type: 'jsonb', nullable: true, default: [] })
     public questions: string[];
 
 
