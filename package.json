@@ -37,6 +37,7 @@
     "@nestjs/core": "^8.0.0",
     "@nestjs/jwt": "^9.0.0",
     "@nestjs/passport": "^9.0.0",
+    "@nestjs/swagger": "^5.1.5",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^8.0.2",
     "@types/passport": "^1.0.10",
@@ -54,7 +55,6 @@
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
-    "@nestjs/swagger": "^5.1.5",
     "@nestjs/testing": "^8.0.0",
     "@types/express": "^4.17.13",
     "@types/jest": "27.5.0",
