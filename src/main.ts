@@ -1,10 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import SwaggerConfig from './configs/swagger.config';
+if (process.env.NODE_ENV === 'development') require('dotenv/config');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   SwaggerConfig.init(app)
-  await app.listen(Number(process.env.APP_PORT) || 8080)
+  await app.listen(Number(process.env.PORT) || 8080)
 }
 bootstrap();
