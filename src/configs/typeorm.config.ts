@@ -14,5 +14,8 @@ export const typeormConfig = (): TypeOrmModule => {
         synchronize: false,
         logging: process.env.NODE_ENV === 'development' ? true : false,
         autoLoadEntities: true,
+        extra: {
+          ssl: true
+        }
       }
 }
