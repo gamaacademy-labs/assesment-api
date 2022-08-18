@@ -1,15 +1,15 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import * as dotenv from "dotenv";
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` }) 
+
+if (process.env.NODE_ENV === 'development') require('dotenv/config');
 
 export const typeormConfig = (): TypeOrmModule => {
     return {
         type: 'postgres',
-        host: 'localhost',
+        host: process.env.DATABASE_HOST,
         port: 5432,
-        username: 'root',
-        password: 'development',
-        database: 'assesment-api',
+        username: process.env.DATABASE_USERNAME,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE_SCHEMA,
         entities: [__dirname + '/../modules/**/*.entity.{js,ts}'],
         synchronize: false,
         logging: process.env.NODE_ENV === 'development' ? true : false,
