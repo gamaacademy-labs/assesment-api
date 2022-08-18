@@ -18,4 +18,5 @@ module.exports = {
     subscribersDir: 'src/db/subscribers',
   },
   logging: true,
+  ssl: process.env.NODE_ENV === 'development' ? false : { require: true, rejectUnauthorized: false }
 };
