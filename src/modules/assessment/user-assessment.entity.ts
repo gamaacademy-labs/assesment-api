@@ -2,7 +2,7 @@ import { Column, Entity, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedCol
 import { UsersEntity } from "../users/users.entity";
 
 
-@Entity('user_assessment')
+@Entity('user_assessments')
 export class UserAssessmentEntity {
     @PrimaryGeneratedColumn('uuid')
     public id: string;
@@ -22,7 +22,7 @@ export class UserAssessmentEntity {
     @Column({ name: 'answers', type: 'jsonb', unique: false, nullable: true, default: [] })
     public answers: string[];
 
-    // @ManyToOne(type => UsersEntity, users => users.username)
-    // public userName: string|any;
+    @ManyToOne(type => UsersEntity, userAssessment => UserAssessmentEntity)
+    public user: UsersEntity;
 
 }
