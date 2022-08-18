@@ -1,5 +1,6 @@
 import { Column, Entity, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, ManyToOne, OneToOne } from "typeorm";
 import { UsersEntity } from "../users/users.entity";
+import { AssessmentEntity } from "./assessment.entity";
 
 
 @Entity('user_assessments')
@@ -24,5 +25,8 @@ export class UserAssessmentEntity {
 
     @ManyToOne(type => UsersEntity, userAssessment => UserAssessmentEntity)
     public user: UsersEntity;
+
+    @ManyToOne(type => AssessmentEntity, assessmentUser => UserAssessmentEntity)
+    public assessment: AssessmentEntity;
 
 }
