@@ -10,7 +10,6 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "poststart": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run --config ./src/configs/typeorm-cli.config.js",
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
