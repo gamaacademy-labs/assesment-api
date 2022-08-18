@@ -10,7 +10,7 @@ import { AuthModule } from './modules/auth/auth.module';
   imports: [
     TypeOrmModule.forRoot(typeormConfig()),
     UsersModule,
-    AuthModule
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
