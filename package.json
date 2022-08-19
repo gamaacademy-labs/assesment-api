@@ -9,7 +9,8 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "node dist/main.js",
+    "start": "node dist/main",
+    "poststart": "npm run typeorm:migration:run",
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -48,7 +49,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "typeorm": "^0.2.45"
+    "typeorm": "^0.2.45",
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
@@ -73,7 +75,6 @@
     "swagger-ui-express": "^4.3.0",
     "ts-jest": "28.0.1",
     "ts-loader": "^9.2.3",
-    "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "4.0.0",
     "typeorm-seeding": "^1.6.1",
