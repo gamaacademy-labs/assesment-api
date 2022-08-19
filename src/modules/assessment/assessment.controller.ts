@@ -1,18 +1,17 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { AssessmentEntity } from './assessment.entity';
+import { ApiTags } from '@nestjs/swagger';
 import { AssessmentService } from './assessment.service';
 
 @Controller('assessment')
+@ApiTags('assessment')
 export class AssessmentController {
     constructor(
         private assessmentService: AssessmentService
     ) {}
 
-    @Get('/:id')
-    public async findAssessmentById(
-        @Param('id') id: number
-    ): Promise<AssessmentEntity> {
-        const assessment = await this.assessmentService.findAssessmentById(id)
-        return assessment
-}
+    @Get('assessment:id')
+    public async findAssessmentById(@Param('id') id: string) {
+        return this.assessmentService.findAssessmentById(id);
+    }
+
 }
