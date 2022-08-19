@@ -9,7 +9,7 @@ export class AssessmentController {
         private assessmentService: AssessmentService
     ) {}
 
-    @Get('assessment:id')
+    @Get('assessment/:id')
     public async findAssessmentById(@Param('id') id: string) {
         return this.assessmentService.findAssessmentById(id);
     }
