@@ -2,6 +2,7 @@ import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColu
 
 @Entity('assessments')
 export class AssessmentEntity {
+
     @PrimaryGeneratedColumn('uuid')
     public id: string;
 
@@ -22,6 +23,7 @@ export class AssessmentEntity {
     
     @Column({ name: 'questions', type: 'jsonb', nullable: true, default: [] })
     public questions: string[];
+
 
 
     
