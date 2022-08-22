@@ -3,11 +3,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AssessmentEntity } from './assessment.entity';
 import { AssessmentRepository } from './assessment.repository';
 
+import { QuestionsRepository } from "../questions/questions.repository";
+
 @Injectable()
 export class AssessmentService {
     constructor(
         @InjectRepository(AssessmentRepository)
         private assessmentRepository: AssessmentRepository,
+
+        @InjectRepository(QuestionsRepository)
+        private questionRepository: QuestionsRepository
     ) {}
 
     public async findAssessmentById(id: string):
@@ -30,6 +35,18 @@ export class AssessmentService {
         return assessmentObj;
     }
 
+    public async findAssessmentAndQuestions(id: string): Promise<AssessmentEntity | Object> {
+        const assessment = await this.assessmentRepository.findAssessmentById(id);
 
+        if(!assessment) throw new NotFoundException("assesment and questions not found!");
+
+        const questions = await this.questionRepository.findQuestions(assessment.questions);
+
+        const assessmentsQuestion = {
+            assessment, questions
+        }
+
+        return assessmentsQuestion;
+    }
 
 }
