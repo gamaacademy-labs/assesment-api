@@ -1,6 +1,6 @@
 import { Connection } from 'typeorm';
 import { Factory, Seeder } from 'typeorm-seeding';
-import { QuestionsEntity } from '../../modules/questions/questions.entity';
+import { QuestionsEntity } from '../../modules/assessment/questions.entity';
 
 export default class Questions implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {
