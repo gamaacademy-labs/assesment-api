@@ -42,8 +42,18 @@ export class AssessmentService {
 
         const questions = await this.questionRepository.findQuestions(assessment.questions);
 
+        delete assessment.questions;
+        
         const assessmentsQuestion = {
-            assessment, questions
+            assessment: [{
+                id: assessment.id,
+                createdAt: assessment.createdAt,
+                updatedAt: assessment.updatedAt,
+                isActive: assessment.isActive,
+                title: assessment.title,
+                finishedAt: assessment.finishedAt,
+                questions
+            }]
         }
 
         return assessmentsQuestion;
