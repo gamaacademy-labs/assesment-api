@@ -19,6 +19,7 @@ export default class Assessment implements Seeder {
             '4940c4cb-4301-4fe4-9ddc-e47f893a86d6'
           ], 
         },
+        {
           id: '1aca16af-36a3-4850-9aef-eadb6f8a8f30',
           title: 'Avaliação de Estrutura de Dados', 
           finishedAt: '2020-01-01', 
