@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AssessmentEntity } from './assessment.entity';
 import { AssessmentRepository } from './assessment.repository';
 
-import { QuestionsRepository } from "../questions/questions.repository";
+import { QuestionsRepository } from "./questions.repository";
 
 @Injectable()
 export class AssessmentService {
