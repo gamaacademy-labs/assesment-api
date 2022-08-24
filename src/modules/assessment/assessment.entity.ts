@@ -1,7 +1,9 @@
-import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
+import {Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
+import { UserAssessmentEntity } from "./user-assessment.entity";
 
 @Entity('assessments')
 export class AssessmentEntity {
+
     @PrimaryGeneratedColumn('uuid')
     public id: string;
 
@@ -22,6 +24,10 @@ export class AssessmentEntity {
     
     @Column({ name: 'questions', type: 'jsonb', nullable: true, default: [] })
     public questions: string[];
+
+    @OneToMany(type => UserAssessmentEntity, assesment => AssessmentEntity)
+    public userAssessments: UserAssessmentEntity;
+
 
 
     
