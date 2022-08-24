@@ -4,7 +4,7 @@ import { AssessmentController } from './assessment.controller';
 import { AssessmentRepository } from './assessment.repository';
 import { AssessmentService } from './assessment.service';
 
-import { QuestionsRepository } from "../questions/questions.repository";
+import { QuestionsRepository } from "./questions.repository";
 
 @Module({
     imports: [
