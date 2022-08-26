@@ -9,12 +9,12 @@ export class AssessmentController {
         private assessmentService: AssessmentService
     ) {}
 
-    @Get('assessment/:id')
+    @Get('/:id')
     public async findAssessmentById(@Param('id') id: string) {
         return this.assessmentService.findAssessmentById(id);
     }
 
-    @Get("assessmentQuestion/:id")
+    @Get("questions/:id")
     public async getAssessmentQuestions(@Param("id") id: string) {
         const assessmentQuestion = await this.assessmentService.findAssessmentAndQuestions(id);
 
