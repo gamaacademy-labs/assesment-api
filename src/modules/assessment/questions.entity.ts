@@ -19,4 +19,7 @@ export class QuestionsEntity {
 
     @Column({ name: 'alternatives', type: 'jsonb', nullable: true, default: [] })
     public alternatives: object[];
+
+    @Column({ name: 'isCorrect', type: 'jsonb', nullable: true, default: [] })
+    public isCorrect: number[];
 }
