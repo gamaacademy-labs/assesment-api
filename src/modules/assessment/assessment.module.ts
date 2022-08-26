@@ -4,9 +4,11 @@ import { AssessmentController } from './assessment.controller';
 import { AssessmentRepository } from './assessment.repository';
 import { AssessmentService } from './assessment.service';
 
+import { QuestionsRepository } from "./questions.repository";
+
 @Module({
     imports: [
-        TypeOrmModule.forFeature([AssessmentRepository])
+        TypeOrmModule.forFeature([AssessmentRepository, QuestionsRepository])
     ],
   controllers: [AssessmentController],
   providers: [AssessmentService],

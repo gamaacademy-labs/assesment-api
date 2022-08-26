@@ -14,4 +14,11 @@ export class AssessmentController {
         return this.assessmentService.findAssessmentById(id);
     }
 
+    @Get("assessmentQuestion/:id")
+    public async getAssessmentQuestions(@Param("id") id: string) {
+        const assessmentQuestion = await this.assessmentService.findAssessmentAndQuestions(id);
+
+        return assessmentQuestion;
+    }
+
 }
