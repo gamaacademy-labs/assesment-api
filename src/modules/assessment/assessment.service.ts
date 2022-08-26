@@ -45,7 +45,6 @@ export class AssessmentService {
         delete assessment.questions;
         
         const assessmentsQuestion = {
-            assessment: [{
                 id: assessment.id,
                 createdAt: assessment.createdAt,
                 updatedAt: assessment.updatedAt,
@@ -53,7 +52,6 @@ export class AssessmentService {
                 title: assessment.title,
                 finishedAt: assessment.finishedAt,
                 questions
-            }]
         }
 
         return assessmentsQuestion;
