@@ -43,7 +43,11 @@ export class AssessmentService {
         const questions = await this.questionRepository.findQuestions(assessment.questions);
 
         delete assessment.questions;
-        delete assessment.isCorrect;
+        
+        questions.map((question) => {
+            delete question.isCorrect;
+        });
+
         
         const assessmentsQuestion = {
                 id: assessment.id,
@@ -53,27 +57,23 @@ export class AssessmentService {
                 title: assessment.title,
                 finishedAt: assessment.finishedAt,
                 questions,
-                isCorrect: assessment.isCorrect,
-            }]
+            }
+            return assessmentsQuestion;
         }
         
 
-        return assessmentsQuestion;
-    }
-
-    public async findAssessmentsActive(): Promise<AssessmentEntity[] | Object>{
-
-        const assessmentsActive = await this.assessmentRepository.findAssessmentsActive();
-
-        const assessmentsActiveObject = {
-            assessmentsActive
+        public async findAssessmentsActive(): Promise<AssessmentEntity[] | Object>{
+    
+            const assessmentsActive = await this.assessmentRepository.findAssessmentsActive();
+    
+            const assessmentsActiveObject = {
+                assessmentsActive
+            }
+    
+            assessmentsActive.map((assessments) => {
+                delete assessments.questions
+            });
+    
+            return assessmentsActiveObject;
         }
-
-        assessmentsActive.map((assessments) => {
-            delete assessments.questions
-        });
-
-        return assessmentsActiveObject;
     }
-
-}
