@@ -13,4 +13,14 @@ export class AssessmentRepository extends Repository<AssessmentEntity> {
         return assessmentId
     }
 
+    public async findAssessmentsActive() :Promise<AssessmentEntity[]> {
+        const assessmentsActive = await this.find({
+            where: {
+                isActive: true
+            }
+        });
+
+        return assessmentsActive;
+    }
+
 }
