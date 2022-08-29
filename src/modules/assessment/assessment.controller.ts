@@ -21,4 +21,9 @@ export class AssessmentController {
         return assessmentQuestion;
     }
 
+    @Get('assessmentsActive')
+    public async findAssessmentsActive() {
+        return this.assessmentService.findAssessmentsActive();
+    }
+
 }
