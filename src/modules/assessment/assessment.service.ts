@@ -66,14 +66,10 @@ export class AssessmentService {
     
             const assessmentsActive = await this.assessmentRepository.findAssessmentsActive();
     
-            const assessmentsActiveObject = {
-                assessmentsActive
-            }
-    
             assessmentsActive.map((assessments) => {
                 delete assessments.questions
             });
     
-            return assessmentsActiveObject;
+            return assessmentsActive;
         }
     }
