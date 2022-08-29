@@ -59,4 +59,19 @@ export class AssessmentService {
         return assessmentsQuestion;
     }
 
+    public async findAssessmentsActive(): Promise<AssessmentEntity[] | Object>{
+
+        const assessmentsActive = await this.assessmentRepository.findAssessmentsActive();
+
+        const assessmentsActiveObject = {
+            assessmentsActive
+        }
+
+        assessmentsActive.map((assessments) => {
+            delete assessments.questions
+        });
+
+        return assessmentsActiveObject;
+    }
+
 }
