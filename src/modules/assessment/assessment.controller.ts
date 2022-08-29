@@ -10,6 +10,12 @@ export class AssessmentController {
         private assessmentService: AssessmentService
     ) {}
 
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @Get('active')
+    public async findAssessmentsActive() {
+        return this.assessmentService.findAssessmentsActive();
+    }
 
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
@@ -26,10 +32,7 @@ export class AssessmentController {
 
         return assessmentQuestion;
     }
+    
 
-    @Get('assessmentsActive')
-    public async findAssessmentsActive() {
-        return this.assessmentService.findAssessmentsActive();
-    }
 
 }
