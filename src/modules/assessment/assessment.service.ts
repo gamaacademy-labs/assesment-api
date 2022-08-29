@@ -43,6 +43,7 @@ export class AssessmentService {
         const questions = await this.questionRepository.findQuestions(assessment.questions);
 
         delete assessment.questions;
+        delete assessment.isCorrect;
         
         const assessmentsQuestion = {
             assessment: [{
@@ -52,9 +53,11 @@ export class AssessmentService {
                 isActive: assessment.isActive,
                 title: assessment.title,
                 finishedAt: assessment.finishedAt,
-                questions
+                questions,
+                isCorrect: assessment.isCorrect,
             }]
         }
+        
 
         return assessmentsQuestion;
     }
