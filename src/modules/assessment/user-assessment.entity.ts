@@ -29,4 +29,7 @@ export class UserAssessmentEntity {
     @ManyToOne(type => AssessmentEntity, assessmentUser => UserAssessmentEntity)
     public assessment: AssessmentEntity;
 
+    @Column({ name: 'status', type: 'boolean', nullable: false })
+    public status: boolean;
+
 }
