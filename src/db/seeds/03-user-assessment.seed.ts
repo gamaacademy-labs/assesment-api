@@ -28,6 +28,7 @@ export default class UserAssessment implements Seeder {
           assessment: assessments.find((assessment) => assessment.id = '1aca16af-36a3-4850-9aef-eadb6f8a8f30'),
           score: 10,
           answers: [],
+          status: true,
         },
       ])
       .execute();
