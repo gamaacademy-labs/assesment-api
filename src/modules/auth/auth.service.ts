@@ -31,7 +31,7 @@ export class AuthService {
 
     public async login(payload: AuthDto): Promise<string> {
         const user = await this.usersService.findUserByUsername(payload.username)
-        const token = this.loginWithCredentials(user.username)
+        const token = await this.loginWithCredentials(user)
         return token
     }
 }
