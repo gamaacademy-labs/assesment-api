@@ -1,14 +1,15 @@
 import { EntityRepository, Repository } from "typeorm";
-import { UserAssessmentsEntity } from "./user-assessments.entity";
+import { UserAssessmentEntity } from "../assessment/user-assessment.entity";
 
-@EntityRepository(UserAssessmentsEntity)
-export class UserAssessmentsRepository extends Repository<UserAssessmentsEntity> {
 
-    public async findUserAssessmentById (id: string): Promise<UserAssessmentsEntity> {
+@EntityRepository(UserAssessmentEntity)
+export class UserAssessmentsRepository extends Repository<UserAssessmentEntity> {
+
+    public async findUserAssessmentById (id: string): Promise<UserAssessmentEntity> {
         const userAssessmentAnswers = await this.findOne({
             where: {
                 id,
-                is_active: true
+                isActive: true
             }
         })
         return userAssessmentAnswers
