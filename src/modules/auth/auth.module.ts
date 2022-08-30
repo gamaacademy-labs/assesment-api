@@ -17,7 +17,7 @@ import { AssessmentModule } from '../assessment/assessment.module';
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1000s' }
+      signOptions: { expiresIn: '1d' }
     })
   ],
   controllers: [AuthController],
