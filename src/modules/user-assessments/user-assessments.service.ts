@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { AssessmentRepository } from "../assessment/assessment.repository";
 import { QuestionsRepository } from "../assessment/questions.repository";
 import { UsersRepository } from "../users/users.repository";
+import { UserAssessmentDto } from "./user-assessment.dto";
 import { UserAssessmentEntity } from "./user-assessment.entity";
 import { UserAssessmentsRepository } from "./user-assessments.repository";
 
@@ -10,7 +11,7 @@ import { UserAssessmentsRepository } from "./user-assessments.repository";
 
 @Injectable()
 export class UserAssessmentsService {
-    
+
     constructor(
         @InjectRepository(UserAssessmentsRepository)
         private userAssessmentsRepository: UserAssessmentsRepository,
@@ -23,53 +24,44 @@ export class UserAssessmentsService {
 
         @InjectRepository(QuestionsRepository)
         private readonly questionsRepository: QuestionsRepository
-    ){}
+    ) { }
 
-    public async registerAnswersUser (assessmentId: string, user: any, data: any ): Promise<UserAssessmentEntity| any> {
-        const assessmentExist = await this.assessmentRepository.findAssessmentById(assessmentId)
-        if (!assessmentExist) throw new NotFoundException('Assessment not found')
+    public async registerUserAnswer(payload: UserAssessmentDto, username: string): Promise<UserAssessmentEntity | any> {
+        const assessment = await this.assessmentRepository.findAssessmentById(payload.assessmentId);
+        if (!assessment) throw new NotFoundException('Assessment not found')
 
-        const userExist = await this.usersRepository.findUserByUsername(user.username)
-        if (!userExist) throw new NotFoundException('User not found')
+        const user = await this.usersRepository.findUserByUsername(username)
+        if (!user) throw new NotFoundException('User not found')
 
-        const newUserAssessment = async (idAssessment, idUser) => {
-            const newUserAssessment = await this.userAssessmentsRepository.createUserAssessment(idAssessment, idUser)
-            return newUserAssessment
+        let userAssessment = await this.userAssessmentsRepository.findUserAssesmentByUsernameAndId(assessment, user);
+        if (!userAssessment) {
+            userAssessment = await this.userAssessmentsRepository.createUserAssessment(assessment, user)
         }
 
-        const userAssessmentExist = await this.userAssessmentsRepository.countUserAssesmentByUsernameAndId(assessmentId, user.id)
-        if (userAssessmentExist !== 1) {            
-            await newUserAssessment(assessmentId, user.id)
-        }
-        
-        if (!newUserAssessment && userAssessmentExist !== 1) throw new NotFoundException('UserAssessment not found')
-        
-        const userAssessment = await this.userAssessmentsRepository.findUserAssessmentById(assessmentId, user.id)
-        const QuestionExist = await this.questionsRepository.findQuestions([data.question])
-        if (!QuestionExist[0]) throw new NotFoundException('Question not found')
+        // const QuestionExist = await this.questionsRepository.findQuestions([payload.questionId])
+        // if (!QuestionExist[0]) throw new NotFoundException('Question not found')
 
         let changedAnswers = 0;
-        const newAnswers: any = await Promise.all(
-            userAssessment.answers.map(async (elem: any): Promise<[]> => {
-                if(elem.question == data.question) {
-                    elem.answer = await data.answer
-                    changedAnswers ++
-                    
+        const newAnswers: object[] = await Promise.all(
+            userAssessment.answers.map(async (elem): Promise<[]> => {
+                if (elem.questionId == payload.questionId) {
+                    elem.alternativeId = payload.alternativeId
+                    changedAnswers++
+
                     return elem
                 }
-                            
+
                 return elem;
             }),
         );
-        
-        if(!newAnswers[0] || changedAnswers === 0) {                
-            const newItem = {question: data.question, answer: data.answer}
-            newAnswers.push(newItem)
+
+        if (!newAnswers[0] || changedAnswers === 0) {
+            newAnswers.push({
+                alternativeId: payload.alternativeId,
+                questionId: payload.questionId
+            })
         }
-        
         await this.userAssessmentsRepository.updateAnswersUser(userAssessment.id, newAnswers)
-        
-        return
     }
 
 }
