@@ -21,7 +21,7 @@ export class UserAssessmentEntity {
     public score: number;
 
     @Column({ name: 'answers', type: 'jsonb', unique: false, nullable: true, default: [] })
-    public answers: string[];
+    public answers: any[];
 
     @ManyToOne(type => UsersEntity, userAssessment => UserAssessmentEntity)
     public user: UsersEntity;
