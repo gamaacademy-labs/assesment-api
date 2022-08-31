@@ -6,13 +6,15 @@ import { typeormConfig } from './configs/typeorm.config';
 import { UsersModule } from './modules/users/users.module';
 import { AssessmentModule } from './modules/assessment/assessment.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { UserAssessmentsModule } from './modules/user-assessments/user-assessments.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeormConfig()),
     UsersModule,
     AssessmentModule,
-    AuthModule
+    AuthModule,
+    UserAssessmentsModule
   ],
   controllers: [AppController],
   providers: [AppService],

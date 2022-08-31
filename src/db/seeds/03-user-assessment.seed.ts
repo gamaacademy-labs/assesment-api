@@ -1,8 +1,8 @@
-import { AssessmentEntity } from '../../modules/assessment/assessment.entity';
-import { UsersEntity } from '../../modules/users/users.entity';
 import { Connection } from 'typeorm';
 import { Factory, Seeder } from 'typeorm-seeding';
-import { UserAssessmentEntity } from '../../modules/assessment/user-assessment.entity';
+import { AssessmentEntity } from '../../modules/assessment/assessment.entity';
+import { UserAssessmentEntity } from '../../modules/user-assessments/user-assessment.entity';
+import { UsersEntity } from '../../modules/users/users.entity';
 
 export default class UserAssessment implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {

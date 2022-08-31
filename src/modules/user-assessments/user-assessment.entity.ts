@@ -1,6 +1,6 @@
-import { Column, Entity, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, ManyToOne, OneToOne } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { AssessmentEntity } from "../assessment/assessment.entity";
 import { UsersEntity } from "../users/users.entity";
-import { AssessmentEntity } from "./assessment.entity";
 
 
 @Entity('user_assessments')
@@ -21,7 +21,7 @@ export class UserAssessmentEntity {
     public score: number;
 
     @Column({ name: 'answers', type: 'jsonb', unique: false, nullable: true, default: [] })
-    public answers: string[];
+    public answers: any[];
 
     @ManyToOne(type => UsersEntity, userAssessment => UserAssessmentEntity)
     public user: UsersEntity;

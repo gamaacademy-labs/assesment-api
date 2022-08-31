@@ -1,5 +1,5 @@
-import {Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
-import { UserAssessmentEntity } from "./user-assessment.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { UserAssessmentEntity } from "../user-assessments/user-assessment.entity";
 
 @Entity('assessments')
 export class AssessmentEntity {
