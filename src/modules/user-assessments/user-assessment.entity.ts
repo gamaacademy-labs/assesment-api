@@ -1,6 +1,6 @@
-import { Column, Entity, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, ManyToOne, OneToOne } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { AssessmentEntity } from "../assessment/assessment.entity";
 import { UsersEntity } from "../users/users.entity";
-import { AssessmentEntity } from "./assessment.entity";
 
 
 @Entity('user_assessments')

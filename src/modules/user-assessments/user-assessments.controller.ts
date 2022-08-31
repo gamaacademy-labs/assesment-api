@@ -1,6 +1,7 @@
-import { Controller, Get, Param } from "@nestjs/common";
-import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
-import { UserAssessmentEntity } from "../assessment/user-assessment.entity";
+import { Controller, Param, Patch, Request, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from "@nestjs/swagger";
+import { JwtAuthGuard } from "../auth/strategy/jwt-auth.guard";
+import { UserAssessmentEntity } from "./user-assessment.entity";
 import { UserAssessmentsService } from "./user-assessments.service";
 
 @Controller('user-assessments')
@@ -8,15 +9,16 @@ import { UserAssessmentsService } from "./user-assessments.service";
 export class UserAssessmentsController {
     constructor(private userAssessmentsService: UserAssessmentsService) {}
 
-    
-@Get('/:username/:id')
+@UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
-@ApiParam({ name: 'username' })
+@Patch('/questions/id/:id')
+@ApiParam({ name: 'id' })
+@ApiBody({})
 async findUserAssessment(
-    @Param('username') username: string, 
-    @Param('id') id: string): Promise<UserAssessmentEntity | object> {
-
-    return this.userAssessmentsService.findUserAssessment(id);
+    @Request() req,
+    @Param('id') assessmentId: string): Promise<UserAssessmentEntity | object> {
+    
+    return this.userAssessmentsService.registerAnswersUser(assessmentId, req.user, req.body);
 }
 
 }
