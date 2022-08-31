@@ -1,30 +1,32 @@
-import { EntityRepository, Repository } from "typeorm";
+import { EntityRepository, Repository, UpdateResult } from "typeorm";
+import { AssessmentEntity } from "../assessment/assessment.entity";
+import { UsersEntity } from "../users/users.entity";
 import { UserAssessmentEntity } from "./user-assessment.entity";
 
 
 @EntityRepository(UserAssessmentEntity)
 export class UserAssessmentsRepository extends Repository<UserAssessmentEntity> {
 
-    public async countUserAssesmentByUsernameAndId (assessment: string, user: string): Promise<number> {
-        const userAssessmentExist = await this.count({
+    public async findUserAssesmentByUsernameAndId (assessment: AssessmentEntity, user: UsersEntity): Promise<UserAssessmentEntity> {
+        const userAssessment = await this.findOne({
             where: {
                 assessment,
                 user,
                 isActive: true
             }
         })
-        return userAssessmentExist
+        return userAssessment
     }
 
-    public async createUserAssessment (assessment: any, user: any): Promise<any> {
-        const newUserAssessment = await this.insert({            
+    public async createUserAssessment (assessment: AssessmentEntity, user: UsersEntity): Promise<UserAssessmentEntity> {
+        const userAssessment = await this.save({            
             user,
             assessment,
             score: 0,
             answers: [],
             status: true,
         });
-        return newUserAssessment
+        return userAssessment
     }
 
     public async findUserAssessmentById (assessment: string, user: string): Promise<UserAssessmentEntity> {
@@ -38,8 +40,7 @@ export class UserAssessmentsRepository extends Repository<UserAssessmentEntity> 
         return newUserAssessment
     }
 
-    public async updateAnswersUser (id: string, answers: []): Promise<any> {
-
+    public async updateAnswersUser (id: string, answers: any[]): Promise<UpdateResult> {
         const newUserAssessment = await this.update(id, { answers });
         
         return newUserAssessment
