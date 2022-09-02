@@ -1,5 +1,4 @@
 import { ApiProperty } from "@nestjs/swagger";
-
 export class UserAssessmentDto {
     @ApiProperty()
     questionId: string;
@@ -7,4 +6,10 @@ export class UserAssessmentDto {
     alternativeId: string;
     @ApiProperty()
     assessmentId: string;
+}
+
+export enum Status {
+    NOT_STARTED = 0,
+    IN_PROGRESS = 1,
+    FINISHED = 2,
 }
