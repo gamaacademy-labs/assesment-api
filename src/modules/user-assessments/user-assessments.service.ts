@@ -80,4 +80,22 @@ export class UserAssessmentsService {
         return newUserAssessment
     }
 
+    public async finishedUserAssessment(assessmentId: string, username: string): Promise<UserAssessmentEntity | object> {
+        const assessment = await this.assessmentRepository.findAssessmentById(assessmentId);
+        if (!assessment) throw new NotFoundException('Assessment not found')
+
+        const user = await this.usersRepository.findUserByUsername(username)
+        if (!user) throw new NotFoundException('User not found')
+
+        const userAssessment = await this.userAssessmentsRepository.findUserAssesmentByUsernameAndId(assessment, user);
+        if (!userAssessment) throw new NotFoundException('UserAssessment not found');
+
+        if (userAssessment.status !== 1) throw new NotFoundException('UserAssessment is not in progress');
+
+        const finishedUserAssessment = await this.userAssessmentsRepository.updateUserAssessment(userAssessment.id, 2)
+        if (!finishedUserAssessment) throw new NotFoundException('UserAssessment cannot be finished');
+
+        return finishedUserAssessment
+    }
+
 }
