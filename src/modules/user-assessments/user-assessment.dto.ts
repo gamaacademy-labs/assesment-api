@@ -13,3 +13,8 @@ export enum Status {
     IN_PROGRESS = 1,
     FINISHED = 2,
 }
+
+export class UserAssessmentStatusDto {
+    @ApiProperty()
+    assessmentId: string;
+}
