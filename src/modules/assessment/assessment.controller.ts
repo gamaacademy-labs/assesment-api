@@ -1,4 +1,4 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Request, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/strategy/jwt-auth.guard';
 import { AssessmentService } from './assessment.service';
@@ -13,8 +13,8 @@ export class AssessmentController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @Get('active')
-    public async findAssessmentsActive() {
-        return this.assessmentService.findAssessmentsActive();
+    public async findAssessmentsActive(@Request() req) {
+        return this.assessmentService.findAssessmentsActive(req.user.username);
     }
 
     @UseGuards(JwtAuthGuard)
@@ -27,8 +27,8 @@ export class AssessmentController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @Get("questions/:id")
-    public async getAssessmentQuestions(@Param("id") id: string) {
-        const assessmentQuestion = await this.assessmentService.findAssessmentAndQuestions(id);
+    public async getAssessmentQuestions(@Param("id") id: string, @Request() req) {
+        const assessmentQuestion = await this.assessmentService.findAssessmentAndQuestions(id, req.user.username);
 
         return assessmentQuestion;
     }
