@@ -1,4 +1,4 @@
-import { Body, Controller, Patch, Post, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, HttpCode, Patch, Post, Request, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiTags } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../auth/strategy/jwt-auth.guard";
 import { UserAssessmentDto, UserAssessmentStatusDto } from "./user-assessment.dto";
@@ -12,6 +12,7 @@ export class UserAssessmentsController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @Patch('/questions')
+    @HttpCode(204)
     @ApiBody({ type: UserAssessmentDto })
     async findUserAssessment(
         @Body() payload: UserAssessmentDto,
@@ -23,6 +24,7 @@ export class UserAssessmentsController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @Post('/started')
+    @HttpCode(201)
     @ApiBody({ type: UserAssessmentStatusDto })    
     async createUserAssessment(
         @Body() assessmentId: UserAssessmentStatusDto ,
@@ -30,4 +32,17 @@ export class UserAssessmentsController {
     ) {
         return this.userAssessmentsService.startedUserAssessment(assessmentId.assessmentId, req.user.username);
     }
+
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @Patch('/finished')
+    @HttpCode(204)
+    @ApiBody({ type: UserAssessmentStatusDto })
+    async finishUserAssessment(
+        @Body() assessmentId: UserAssessmentStatusDto,
+        @Request() req,
+    ) {
+        return this.userAssessmentsService.finishedUserAssessment(assessmentId.assessmentId, req.user.username);
+    }
+
 }
