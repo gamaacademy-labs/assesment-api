@@ -18,6 +18,12 @@ export class UserAssessmentsRepository extends Repository<UserAssessmentEntity> 
         return userAssessment
     }
 
+    public async updateUserAssessment (id: string, status: number): Promise<UpdateResult> {
+        const newUserAssessment = await this.update(id, {status});
+
+        return newUserAssessment
+    }
+
     public async createUserAssessment (assessment: AssessmentEntity, user: UsersEntity): Promise<UserAssessmentEntity> {
         const userAssessment = await this.save({            
             user,
