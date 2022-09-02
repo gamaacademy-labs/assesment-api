@@ -64,7 +64,7 @@ export class UserAssessmentsService {
         await this.userAssessmentsRepository.updateAnswersUser(userAssessment.id, newAnswers)
     }
 
-    public async startedUserAssessment(assessmentId: string, username: string): Promise<UserAssessmentEntity | any> {
+    public async startedUserAssessment(assessmentId: string, username: string): Promise<UserAssessmentEntity> {
         const assessment = await this.assessmentRepository.findAssessmentById(assessmentId);
         if (!assessment) throw new NotFoundException('Assessment not found')
 
