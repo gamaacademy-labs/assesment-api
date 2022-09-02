@@ -24,7 +24,7 @@ export class UserAssessmentsRepository extends Repository<UserAssessmentEntity> 
             assessment,
             score: 0,
             answers: [],
-            status: true,
+            status: 1,
         });
         return userAssessment
     }
