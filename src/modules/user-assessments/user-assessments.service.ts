@@ -64,4 +64,20 @@ export class UserAssessmentsService {
         await this.userAssessmentsRepository.updateAnswersUser(userAssessment.id, newAnswers)
     }
 
+    public async startedUserAssessment(assessmentId: string, username: string): Promise<UserAssessmentEntity | any> {
+        const assessment = await this.assessmentRepository.findAssessmentById(assessmentId);
+        if (!assessment) throw new NotFoundException('Assessment not found')
+
+        const user = await this.usersRepository.findUserByUsername(username)
+        if (!user) throw new NotFoundException('User not found')
+
+        const userAssessment = await this.userAssessmentsRepository.findUserAssesmentByUsernameAndId(assessment, user);
+        if (userAssessment) throw new NotFoundException('This assessment has already been started by the user');
+       
+        const newUserAssessment = await this.userAssessmentsRepository.createUserAssessment(assessment, user)
+        if (!newUserAssessment) throw new NotFoundException('UserAssessment cannot be created');        
+
+        return newUserAssessment
+    }
+
 }
