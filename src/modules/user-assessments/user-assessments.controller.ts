@@ -1,8 +1,7 @@
-import { Body, Controller, Param, Patch, Request, UseGuards } from "@nestjs/common";
-import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Patch, Request, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiBody, ApiTags } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../auth/strategy/jwt-auth.guard";
 import { UserAssessmentDto } from "./user-assessment.dto";
-import { UserAssessmentEntity } from "./user-assessment.entity";
 import { UserAssessmentsService } from "./user-assessments.service";
 
 @Controller('user-assessments')
