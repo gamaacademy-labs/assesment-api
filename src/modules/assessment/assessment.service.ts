@@ -96,7 +96,7 @@ export class AssessmentService {
                         return newElem
                     }
                                         
-                    newElem.status = 2;
+                    newElem.status = userAssessment.status;
 
                     return newElem;
                 }),
