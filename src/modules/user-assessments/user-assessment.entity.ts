@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { AssessmentEntity } from "../assessment/assessment.entity";
 import { UsersEntity } from "../users/users.entity";
-
+import { Status } from "./user-assessment.dto";
 
 @Entity('user_assessments')
 export class UserAssessmentEntity {
@@ -29,7 +29,7 @@ export class UserAssessmentEntity {
     @ManyToOne(type => AssessmentEntity, assessmentUser => UserAssessmentEntity)
     public assessment: AssessmentEntity;
 
-    @Column({ name: 'status', type: 'boolean', nullable: false })
-    public status: boolean;
+    @Column({ name: 'status', type: 'enum', nullable: false, enum: Status })
+    public status: Status;
 
 }
