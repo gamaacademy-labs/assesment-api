@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserAssessmentsRepository } from '../user-assessments/user-assessments.repository';
+import { UsersRepository } from '../users/users.repository';
 import { AssessmentEntity } from './assessment.entity';
 import { AssessmentRepository } from './assessment.repository';
 
@@ -12,7 +14,13 @@ export class AssessmentService {
         private assessmentRepository: AssessmentRepository,
 
         @InjectRepository(QuestionsRepository)
-        private questionRepository: QuestionsRepository
+        private questionRepository: QuestionsRepository,
+
+        @InjectRepository(UserAssessmentsRepository)
+        private userAssessmentsRepository: UserAssessmentsRepository,
+
+        @InjectRepository(UsersRepository)
+        private readonly usersRepository: UsersRepository,
     ) {}
 
     public async findAssessmentById(id: string):
@@ -62,18 +70,32 @@ export class AssessmentService {
         }
         
 
-        public async findAssessmentsActive(): Promise<AssessmentEntity[] | Object>{
+        public async findAssessmentsActive(username): Promise<AssessmentEntity[] | Object>{
     
             const assessmentsActive = await this.assessmentRepository.findAssessmentsActive();
     
-            const assessmentsActiveObject = {
-                assessmentsActive
-            }
+            const newAssessmentsActive: object[] = await Promise.all(
+                assessmentsActive.map(async (elem): Promise<object[]> => {
+                    delete elem.questions
+                    let newElem = {
+                        ...elem,
+                        status: 0
+                    };
+                    const user = await this.usersRepository.findUserByUsername(username);
+                    const userAssessment = await this.userAssessmentsRepository.findUserAssesmentByUsernameAndId(elem, user);
+                    
+                    if (!userAssessment) {
+
+                        return newElem
+                    }
+                                        
+                    newElem.status = 2;
+
+                    return newElem;
+                }),
+            );
+                
     
-            assessmentsActive.map((assessments) => {
-                delete assessments.questions
-            });
-    
-            return assessmentsActiveObject;
+            return newAssessmentsActive;
         }
     }
