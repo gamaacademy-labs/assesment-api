@@ -27,8 +27,8 @@ export class AssessmentController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @Get("questions/:id")
-    public async getAssessmentQuestions(@Param("id") id: string) {
-        const assessmentQuestion = await this.assessmentService.findAssessmentAndQuestions(id);
+    public async getAssessmentQuestions(@Param("id") id: string, @Request() req) {
+        const assessmentQuestion = await this.assessmentService.findAssessmentAndQuestions(id, req.user.username);
 
         return assessmentQuestion;
     }
