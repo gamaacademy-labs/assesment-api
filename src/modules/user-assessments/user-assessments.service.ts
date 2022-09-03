@@ -98,4 +98,50 @@ export class UserAssessmentsService {
         return finishedUserAssessment
     }
 
+    public async calculateScoreUserAssessment(assessmentId: string, username: string): Promise<UserAssessmentEntity | object> {
+        const assessment = await this.assessmentRepository.findAssessmentById(assessmentId);
+        if (!assessment) throw new NotFoundException('Assessment not found')
+
+        const user = await this.usersRepository.findUserByUsername(username)
+        if (!user) throw new NotFoundException('User not found')
+
+        const userAssessment = await this.userAssessmentsRepository.findUserAssesmentByUsernameAndId(assessment, user);
+        if (!userAssessment) throw new NotFoundException('UserAssessment not found');
+
+        if (userAssessment.status !== 2) throw new NotFoundException('UserAssessment is not finished');
+
+        
+        let countScore = 0
+        let alternativesCorrect = []
+        const newScore: any[] = await Promise.all(
+            userAssessment.answers.map(async (elem, index): Promise<[]> => {
+                const question = await this.questionsRepository.findQuestions([elem.questionId])
+                if (!question[0]) throw new NotFoundException('Question not found')
+
+                alternativesCorrect[index] = question[0].isCorrect
+                
+                await question[0].isCorrect.map(async (item): Promise<[]> => {    
+                    if (item == elem.alternativeId) {
+                        countScore++
+                    }
+                    return;
+                })
+
+                return
+            }),
+        );
+
+        const updateScore = await this.userAssessmentsRepository.updateScore(userAssessment.id, countScore)
+        const result = await this.userAssessmentsRepository.findUserAssesmentByUsernameAndId(assessment, user);
+        if (!result) throw new NotFoundException('UserAssessment not found');
+
+        await result.answers.map(async (elem, index): Promise<object> => {    
+            const checkAnswer = {...elem, "Correct": alternativesCorrect[index]}
+            result.answers[index] = checkAnswer
+            return
+        })
+        
+        return result
+    }
+
 }

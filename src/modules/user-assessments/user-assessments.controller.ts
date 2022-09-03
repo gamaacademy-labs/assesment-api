@@ -45,4 +45,16 @@ export class UserAssessmentsController {
         return this.userAssessmentsService.finishedUserAssessment(assessmentId.assessmentId, req.user.username);
     }
 
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @Patch('/score')
+    @HttpCode(200)
+    @ApiBody({ type: UserAssessmentStatusDto })
+    async scoreUserAssessment(
+        @Body() assessmentId: UserAssessmentStatusDto,
+        @Request() req,
+    ) {
+        return this.userAssessmentsService.calculateScoreUserAssessment(assessmentId.assessmentId, req.user.username);
+    }
+
 }

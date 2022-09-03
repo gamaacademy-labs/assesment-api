@@ -52,4 +52,10 @@ export class UserAssessmentsRepository extends Repository<UserAssessmentEntity> 
         return newUserAssessment
     }
 
+    public async updateScore (id: string, score: number): Promise<UpdateResult> {
+        const newUserAssessment = await this.update(id, { score });
+        
+        return newUserAssessment
+    }
+
 }
