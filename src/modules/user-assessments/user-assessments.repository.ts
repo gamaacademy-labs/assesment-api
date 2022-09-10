@@ -24,12 +24,12 @@ export class UserAssessmentsRepository extends Repository<UserAssessmentEntity> 
         return newUserAssessment
     }
 
-    public async createUserAssessment (assessment: AssessmentEntity, user: UsersEntity): Promise<UserAssessmentEntity> {
+    public async createUserAssessment (assessment: AssessmentEntity, user: UsersEntity, answers: object[]): Promise<UserAssessmentEntity> {
         const userAssessment = await this.save({            
             user,
             assessment,
             score: 0,
-            answers: [],
+            answers,
             status: 1,
         });
         return userAssessment
