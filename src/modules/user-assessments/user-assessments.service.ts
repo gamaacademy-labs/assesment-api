@@ -34,12 +34,14 @@ export class UserAssessmentsService {
         if (!user) throw new NotFoundException('User not found')
 
         let userAssessment = await this.userAssessmentsRepository.findUserAssesmentByUsernameAndId(assessment, user);
-        if (!userAssessment) {
-            userAssessment = await this.userAssessmentsRepository.createUserAssessment(assessment, user)
-        }
+        if (!userAssessment) throw new NotFoundException('Assessment not found')
 
-        // const QuestionExist = await this.questionsRepository.findQuestions([payload.questionId])
-        // if (!QuestionExist[0]) throw new NotFoundException('Question not found')
+        const QuestionExist = await this.questionsRepository.findQuestions([payload.questionId])
+        if (!QuestionExist[0]) throw new NotFoundException('Question not found')
+
+        if (userAssessment.status !== 1) throw new NotFoundException('This assessment has already been finished by the user');
+        
+
 
         let changedAnswers = 0;
         const newAnswers: object[] = await Promise.all(
@@ -73,8 +75,19 @@ export class UserAssessmentsService {
 
         const userAssessment = await this.userAssessmentsRepository.findUserAssesmentByUsernameAndId(assessment, user);
         if (userAssessment) throw new NotFoundException('This assessment has already been started by the user');
+
+        const answers: object[] = await Promise.all(
+            assessment.questions.map(async (elem): Promise<object> => {
+                const question = await this.questionsRepository.findQuestions([elem])
+                if (!question[0]) throw new NotFoundException('Question not found')
+
+                const answer = { questionId: question[0].id, alternativeId: null }
+                
+                return answer
+            }),
+        );
        
-        const newUserAssessment = await this.userAssessmentsRepository.createUserAssessment(assessment, user)
+        const newUserAssessment = await this.userAssessmentsRepository.createUserAssessment(assessment, user, answers)
         if (!newUserAssessment) throw new NotFoundException('UserAssessment cannot be created');        
 
         return newUserAssessment
@@ -113,14 +126,14 @@ export class UserAssessmentsService {
         
         let countScore = 0
         let alternativesCorrect = []
-        const newScore: any[] = await Promise.all(
+        await Promise.all(
             userAssessment.answers.map(async (elem, index): Promise<[]> => {
                 const question = await this.questionsRepository.findQuestions([elem.questionId])
                 if (!question[0]) throw new NotFoundException('Question not found')
 
                 alternativesCorrect[index] = question[0].isCorrect
                 
-                await question[0].isCorrect.map(async (item): Promise<[]> => {    
+                await question[0].isCorrect.map(async (item): Promise<[]> => {
                     if (item == elem.alternativeId) {
                         countScore++
                     }
@@ -131,7 +144,7 @@ export class UserAssessmentsService {
             }),
         );
 
-        const updateScore = await this.userAssessmentsRepository.updateScore(userAssessment.id, countScore)
+        await this.userAssessmentsRepository.updateScore(userAssessment.id, countScore)
         const result = await this.userAssessmentsRepository.findUserAssesmentByUsernameAndId(assessment, user);
         if (!result) throw new NotFoundException('UserAssessment not found');
 
