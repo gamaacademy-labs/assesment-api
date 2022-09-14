@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { AssessmentRepository } from "../assessment/assessment.repository";
+import { QuestionsEntity } from "../assessment/questions.entity";
 import { QuestionsRepository } from "../assessment/questions.repository";
 import { UsersRepository } from "../users/users.repository";
 import { UserAssessmentDto } from "./user-assessment.dto";
@@ -126,19 +127,26 @@ export class UserAssessmentsService {
         
         let countScore = 0
         let alternativesCorrect = []
+        let questions: QuestionsEntity[] = []
         await Promise.all(
             userAssessment.answers.map(async (elem, index): Promise<[]> => {
-                const question = await this.questionsRepository.findQuestions([elem.questionId])
-                if (!question[0]) throw new NotFoundException('Question not found')
-
-                alternativesCorrect[index] = question[0].isCorrect
+                // console.log(elem.questionId, "*******")
+                const question = await this.questionsRepository.findQuestion(elem.questionId)
                 
-                await question[0].isCorrect.map(async (item): Promise<[]> => {
+                if (!question) throw new NotFoundException('Question not found 123')
+
+                questions.push(question)
+
+                alternativesCorrect[index] = question.isCorrect
+                
+                await question.isCorrect.map(async (item): Promise<[]> => {
                     if (item == elem.alternativeId) {
                         countScore++
                     }
                     return;
                 })
+                
+                Object.assign(question, elem)
 
                 return
             }),
@@ -146,14 +154,29 @@ export class UserAssessmentsService {
 
         await this.userAssessmentsRepository.updateScore(userAssessment.id, countScore)
         const result = await this.userAssessmentsRepository.findUserAssesmentByUsernameAndId(assessment, user);
+
+        
         if (!result) throw new NotFoundException('UserAssessment not found');
 
-        await result.answers.map(async (elem, index): Promise<object> => {    
-            const checkAnswer = {...elem, "Correct": alternativesCorrect[index]}
-            result.answers[index] = checkAnswer
-            return
+        result.answers = result.answers.map((answer) => {
+            const question: any = questions.find((question) => question.id === answer.questionId)
+
+            
+            delete question.createdAt
+            delete question.updatedAt
+            delete question.isActive
+            delete question.id
+           
+            question.isCorrect = question.isCorrect[0]
+
+            answer.question = question
+
+            return question
         })
         
+        
+
+        console.log(result.answers, "*********")
         return result
     }
 
