@@ -9,4 +9,10 @@ export class QuestionsRepository extends Repository<QuestionsEntity> {
 
         return questions;
     }
+
+    public async findQuestion (id: string): Promise<QuestionsEntity> {
+        const question = await this.findOne(id);
+
+        return question;
+    }
 }   
