@@ -1,6 +1,24 @@
 # GamaLab Squad Paredão - Sistema de Provas
 
-Web app para gerenciamento de provas avaliativas.
+<strong>Web app para gerenciamento de provas avaliativas.</strong>
+
+<a id="indice"></a>
+## Indice de conteúdo
+
+<p align="center">
+<a href="#anc1">Membros</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href="#anc2">Convenções de desenvolvimento</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href="#anc3">Git Flow</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href="#anc4">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href="#anc5">Banco de dados</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href="#anc6">Rodando o projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href="#anc7">Licença</a>
+
+</p>
+
+#
+
+<a id="anc1"></a>
 
 ## Membros
 
@@ -10,9 +28,13 @@ Web app para gerenciamento de provas avaliativas.
 - [André Lima](https://github.com/andresdslima) - Front end Developer
 - [Álvaro M Ferreira](https://github.com/alvaroaxsmith) - Back end Developer
 
+
+
+<a id="anc2"></a>
 ## Convenções de desenvolvimento
 
-- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+- Mensagens de commit
+  - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 - Nomeclatura de variaveis/métodos/funções...
   - Cammel case
     - Ex: const async getProductCountById()
@@ -22,10 +44,16 @@ Web app para gerenciamento de provas avaliativas.
 - Nomeclatura de tabelas e colunas
   - Snake case
     - Ex: created_at
-- Nomeclatura de componentes  
+
+
+
+<a id="anc3"></a>
 
 ## Git Flow
+
 ![plot](./docs//gitflow//git-flow.drawio.png)
+
+<a id="anc4"></a>
 
 ## Tecnologias
 
@@ -51,15 +79,21 @@ Web app para gerenciamento de provas avaliativas.
 - [React](https://pt-br.reactjs.org/)
 - [Vite](https://vitejs.dev/)
 - [Bootstrap](https://getbootstrap.com/)
-- [Smash]()
+- [Smash](https://smash.gama.academy/main/web/storybook/)
+- [Styled Components](https://styled-components.com/)
+- [Redux](https://redux.js.org/)
+
+<div align = "right"><a href="#indice">⬆️ Voltar ao topo</a> </div>
+
+<a id="anc5"></a>
 
 ## Banco de dados
 ### Diagrama de Entidade Relacionamento
 ![der](./docs//gitflow//db//der.drawio.png)
 
-## Como rodar o projeto localmente no back-end
+<a id="anc6"></a>
 
-### Instalação
+## Como rodar o projeto localmente no back-end
 
 Clone o projeto
 
@@ -92,9 +126,10 @@ Rode o projeto
 ```bash
 $ npm run start:dev
 ```
-## Como rodar o projeto localmente no front-end
 
-### Instalação
+Abra o navegador e acesse http://localhost:8080/docs
+
+## Como rodar o projeto localmente no front-end
 
 Clone o projeto
 
@@ -117,3 +152,16 @@ Rode o projeto
 ```bash
 $ npm run dev
 ```
+
+Abra o navegador e acesse http://localhost:5173/
+
+
+<a id="anc7"></a>
+
+## Licença
+
+Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](https://github.com/gamaacademy-labs/assesment-api/blob/main/LICENSE) para mais detalhes.
+
+<div align = "right"><a href="#indice">⬆️ Voltar ao topo</a> </div>
+
+#
